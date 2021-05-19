@@ -14,12 +14,9 @@
  * way altering the source code is stricitly prohibited, unless the prior
  * written consent of Ralink Technology, Inc. is obtained.
  ***************************************************************************
-
 	Module Name:
 	rtmp_mcu.c
-
 	Abstract:
-
 	Revision History:
 	Who         When          What
 	--------    ----------    ----------------------------------------------
@@ -30,15 +27,17 @@
 
 INT MCUBurstWrite(PRTMP_ADAPTER pAd, UINT32 Offset, UINT32 *Data, UINT32 Cnt)
 {
-	RTUSBMultiWrite_nBytes(pAd, Offset, Data, Cnt * 4, 64); 
+	RTUSBMultiWrite_nBytes(pAd, Offset, Data, Cnt * 4, 64);
+    return NULL;
 }
 
 INT MCURandomWrite(PRTMP_ADAPTER pAd, RTMP_REG_PAIR *RegPair, UINT32 Num)
 {
 	UINT32 Index;
-	
+
 	for (Index = 0; Index < Num; Index++)
 		RTMP_IO_WRITE32(pAd, RegPair->Register, RegPair->Value);
+    return NULL;
 }
 
 VOID ChipOpsMCUHook(PRTMP_ADAPTER pAd, enum MCU_TYPE MCUType)
@@ -47,7 +46,7 @@ VOID ChipOpsMCUHook(PRTMP_ADAPTER pAd, enum MCU_TYPE MCUType)
 	RTMP_CHIP_OP *pChipOps = &pAd->chipOps;
 
 
-	if (MCUType == M8051) 
+	if (MCUType == M8051)
 	{
 		pChipOps->sendCommandToMcu = RtmpAsicSendCommandToMcu;
 		pChipOps->BurstWrite = MCUBurstWrite;
@@ -55,7 +54,7 @@ VOID ChipOpsMCUHook(PRTMP_ADAPTER pAd, enum MCU_TYPE MCUType)
 	}
 
 #ifdef CONFIG_ANDES_SUPPORT
-	if (MCUType == ANDES) 
+	if (MCUType == ANDES)
 	{
 
 #ifdef RTMP_USB_SUPPORT
